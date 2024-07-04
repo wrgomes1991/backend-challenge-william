@@ -1,0 +1,16 @@
+Modelo TokenData usando Pydantic para validar a estrutura dos dados do token.
+
+Verificar se um Número é Primo: A função is_prime verifica se um número é primo.
+
+Validação do Token: A função validate_token decodifica o token JWT e realiza as verificações conforme as regras especificadas.
+
+A rota /verify-token recebe o token JWT, valida-o e retorna uma mensagem indicando se é válido ou não, junto com os dados do token.
+
+uvicorn para rodar a aplicação FastAPI.
+
+
+Comando para rodar app uvicorn main:app --reload
+
+Usando a biblioteca logging foi configurado o logging.basicConfig(level=logging.INFO) para obter logs de info e acima.
+
+Adicionado log nas principais funções do código para ajudar a debugar.

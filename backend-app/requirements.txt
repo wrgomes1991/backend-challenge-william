@@ -1,4 +1,4 @@
-fastapi
-uvicorn 
-pyjwt
-python-jose
+fastapi==0.95.2
+uvicorn==0.22.0
+pydantic==1.10.2
+pyjwt==2.6.0
