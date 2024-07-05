@@ -40,10 +40,30 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Set up Kubernetes CLI
-        uses: azure/setup-kubectl@v1
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v1
         with:
-          version: 'latest'
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: your-aws-region  # Substitua com a região da sua conta AWS
 
-      - name: Set up Kubeconfig
-        run: echo "${{ secrets.KUBECONFIG }}" > $HOME/.kube/config
+      - name: Install kubectl
+        run: |
+          curl -o kubectl https://amazon-eks.s3.us-west-2.amazonaws.com/1.21.2/2021-07-05/bin/linux/amd64/kubectl
+          chmod +x ./kubectl
+          sudo mv ./kubectl /usr/local/bin/kubectl
+          kubectl version --short --client
+
+      - name: Install Helm
+        run: |
+          curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3
+          chmod 700 get_helm.sh
+          ./get_helm.sh
+
+      - name: Configure kubectl for EKS
+        run: aws eks --region your-aws-region update-kubeconfig --name your-eks-cluster-name
+
+      - name: Deploy Helm Chart
+        run: |
+          helm upgrade --install backend-app ./backend-app
+        working-directory: backend-challenge-william/backend-app
