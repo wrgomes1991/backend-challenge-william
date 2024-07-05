@@ -21,12 +21,12 @@ O projeto está configurado com os Workflows do Github Actions com dois arquivos
 
 Configurar as credenciais AWS no GitHub Secrets, com o seguinte formato:
 
-AWS_ACCESS_KEY_ID
-AWS_SECRET_ACCESS_KEY
-KUBECONFIG
+- AWS_ACCESS_KEY_ID
+- AWS_SECRET_ACCESS_KEY
+- KUBECONFIG
+- ECR_ID
 
-O processo de implantação será automatizado usando um pipeline CI/CD (GitHub Actions) que é triggado a partir de um commit na branch main. 
-
+O processo de implantação será automatizado usando um pipeline CI/CD (GitHub Actions) que é triggado a partir de um push nas pastas correspondentes. 
 
 
 Contato
