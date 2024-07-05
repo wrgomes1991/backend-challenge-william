@@ -8,6 +8,20 @@ Este projeto contém uma aplicação Python com FastAPI containerizada para veri
 - Docker
 - Kubernetes
 - CI/CD (GitHub Actions)
+- Helm
+
+# Helm Chart
+
+- A aplicação está com os values do chart apontando para uma imagem criada e compartilhada por mim no meu repositório público do Dockerhub, para efeito de testes o chart pode ser instalado em qualquer cluster Kubernettes por meio do comando
+
+```
+helm upgrade --install backend-app .
+```
+
+estando no diretório ./backend-app
+
+Considerando que a solução necessita de diversos pontos de infraestrutura a serem criados nas etapas do Terraform que consequentemente geram insumos para esses valores, após a criação da Infra os passos de criação das secrets do GitHub devem ser seguidos para que o valor do values possa ser alterado com a imagem do repo AWS.
+
 
 # Configuração da Imagem Docker
 
@@ -23,11 +37,15 @@ Configurar as credenciais AWS no GitHub Secrets, com o seguinte formato:
 
 - AWS_ACCESS_KEY_ID
 - AWS_SECRET_ACCESS_KEY
-- KUBECONFIG
-- ECR_ID
-- AWS_EKS_CLUSTER_NAME
 
-O processo de implantação será automatizado usando um pipeline CI/CD (GitHub Actions) que é triggado a partir de um push nas pastas correspondentes. 
+Após essas configurações é possível realizar um push no diretório challenge-aws-terraform que vai triggar o pipeline que faz a criação da infraestrtura e coletar as informações necessárias para os demais secrets:
+
+- KUBECONFIG
+- AWS_EKS_CLUSTER_NAME
+- ECR_ID
+
+Satisfazendo essas informações podemos realizar um push na pasta backend-app que vai triggar o pipeline da aplicação e então trocar o valor do arquivo values.yaml com o repositorio de imagem criado onde foi feito o push da imagem e assim rodando o deployment via helm configurado na pipeline.
+O primeiro Run da pipeline da aplicação vai conter erros devido aos ajustes necessários com os dados da imagem no repo ECR que devem ser adicionados para que a última etapa de Deploy ocorra corretamente.
 
 
 Contato
