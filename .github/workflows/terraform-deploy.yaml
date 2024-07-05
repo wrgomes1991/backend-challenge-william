@@ -4,42 +4,43 @@ on:
   push:
     paths:
       - 'challenge-aws-terraform/**'
+
 jobs:
   terraform:
     name: 'Terraform'
     runs-on: ubuntu-latest
 
     steps:
-    - name: 'Checkout code'
-      uses: actions/checkout@v2
-      with:
-        path: 'challenge-aws-terraform'
+      - name: 'Checkout code'
+        uses: actions/checkout@v2
+        with:
+          path: 'challenge-aws-terraform'
 
-    - name: 'Setup Terraform'
-      uses: hashicorp/setup-terraform@v1
-      with:
-        terraform_version: 1.0.0
+      - name: 'Setup Terraform'
+        uses: hashicorp/setup-terraform@v1
+        with:
+          terraform_version: 1.0.0
 
-    - name: 'Configure AWS credentials'
-      uses: aws-actions/configure-aws-credentials@v1
-      with:
-        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        aws-region: us-east-1
+      - name: 'Configure AWS credentials'
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-1
 
-    - name: 'Initialize Terraform'
-      working-directory: 'challenge-aws-terraform' 
-      run: terraform init
+      - name: 'Initialize Terraform'
+        working-directory: 'challenge-aws-terraform'
+        run: terraform init
 
-    - name: 'Validate Terraform configuration'
-      working-directory: 'challenge-aws-terraform'
-      run: terraform validate
+      - name: 'Validate Terraform configuration'
+        working-directory: 'challenge-aws-terraform'
+        run: terraform validate
 
-    - name: 'Plan Terraform deployment'
-      working-directory: 'challenge-aws-terraform'
-      run: terraform plan -out=tfplan
+      - name: 'Plan Terraform deployment'
+        working-directory: 'challenge-aws-terraform'
+        run: terraform plan -out=tfplan
 
-    - name: 'Apply Terraform deployment'
-      if: github.ref == 'refs/heads/main'
-      working-directory: 'challenge-aws-terraform'
-      run: terraform apply -auto-approve tfplan
+      - name: 'Apply Terraform deployment'
+        if: github.ref == 'refs/heads/main'
+        working-directory: 'challenge-aws-terraform'
+        run: terraform apply -auto-approve tfplan
