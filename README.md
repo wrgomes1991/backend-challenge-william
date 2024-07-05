@@ -47,6 +47,9 @@ Após essas configurações é possível realizar um push no diretório challeng
 Satisfazendo essas informações podemos realizar um push na pasta backend-app que vai triggar o pipeline da aplicação e então trocar o valor do arquivo values.yaml com o repositorio de imagem criado onde foi feito o push da imagem e assim rodando o deployment via helm configurado na pipeline.
 O primeiro Run da pipeline da aplicação vai conter erros devido aos ajustes necessários com os dados da imagem no repo ECR que devem ser adicionados para que a última etapa de Deploy ocorra corretamente.
 
+# Collection Insomnia
+
+No diretório Insomnia-collection existem os testes de 4 JWT tokens utilizando o localhost como URL padrão o que pode ser alterado conforme exposição da API no seu ambiente.
 
 Contato
 
