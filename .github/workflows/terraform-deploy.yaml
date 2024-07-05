@@ -2,12 +2,8 @@ name: Terraform CI/CD
 
 on:
   push:
-    branches:
-      - main
-  pull_request:
-    branches:
-      - main
-
+    paths:
+      - 'challenge-aws-terraform/**'
 jobs:
   terraform:
     name: 'Terraform'
@@ -16,6 +12,8 @@ jobs:
     steps:
     - name: 'Checkout code'
       uses: actions/checkout@v2
+      with:
+        path: 'challenge-aws-terraform'
 
     - name: 'Setup Terraform'
       uses: hashicorp/setup-terraform@v1
@@ -30,14 +28,18 @@ jobs:
         aws-region: us-east-1
 
     - name: 'Initialize Terraform'
+      working-directory: 'challenge-aws-terraform' 
       run: terraform init
 
     - name: 'Validate Terraform configuration'
+      working-directory: 'challenge-aws-terraform'
       run: terraform validate
 
     - name: 'Plan Terraform deployment'
+      working-directory: 'challenge-aws-terraform'
       run: terraform plan -out=tfplan
 
     - name: 'Apply Terraform deployment'
       if: github.ref == 'refs/heads/main'
+      working-directory: 'challenge-aws-terraform'
       run: terraform apply -auto-approve tfplan

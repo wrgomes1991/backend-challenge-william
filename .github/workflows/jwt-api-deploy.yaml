@@ -2,8 +2,8 @@ name: JWT API CI/CD Pipeline
 
 on:
   push:
-    branches:
-      - main
+    paths:
+      - backend-app/**
 
 jobs:
   build:
@@ -33,7 +33,7 @@ jobs:
 
     - name: Build and push Docker image
         run: |
-          docker build -t <seu-id-do-ecr>.dkr.ecr.us-east-1.amazonaws.com/fastapi-app:latest .
+          docker build -t <seu-id-do-ecr>.dkr.ecr.us-east-1.amazonaws.com/fastapi-app:latest ./backend-app/
           docker push <seu-id-do-ecr>.dkr.ecr.us-east-1.amazonaws.com/fastapi-app:latest
 
   deploy:

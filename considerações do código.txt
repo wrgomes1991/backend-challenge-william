@@ -8,7 +8,6 @@ A rota /verify-token recebe o token JWT, valida-o e retorna uma mensagem indican
 
 uvicorn para rodar a aplicação FastAPI.
 
-
 Comando para rodar app uvicorn main:app --reload
 
 Usando a biblioteca logging foi configurado o logging.basicConfig(level=logging.INFO) para obter logs de info e acima.
