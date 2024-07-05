@@ -6,7 +6,7 @@ module "s3" {
   source      = "./modules/s3"
   bucket_name = "challenge-tfstate-bucket"
 }
-
+ 
 terraform {
   backend "s3" {
     bucket = "challenge-tfstate-bucket"
