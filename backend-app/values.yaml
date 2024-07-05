@@ -1,6 +1,6 @@
 replicaCount: 1
 image:
-  repository: your-image-repository/backend-app
+  repository: wrgomes1991/itau-challenge
   tag: latest
   pullPolicy: IfNotPresent
 service:

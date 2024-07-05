@@ -25,6 +25,7 @@ Configurar as credenciais AWS no GitHub Secrets, com o seguinte formato:
 - AWS_SECRET_ACCESS_KEY
 - KUBECONFIG
 - ECR_ID
+- AWS_EKS_CLUSTER_NAME
 
 O processo de implantação será automatizado usando um pipeline CI/CD (GitHub Actions) que é triggado a partir de um push nas pastas correspondentes. 
 

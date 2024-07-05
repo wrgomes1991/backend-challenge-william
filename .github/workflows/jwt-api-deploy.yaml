@@ -45,7 +45,7 @@ jobs:
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: your-aws-region  # Substitua com a região da sua conta AWS
+          aws-region: us-east-1
 
       - name: Install kubectl
         run: |
@@ -61,7 +61,7 @@ jobs:
           ./get_helm.sh
 
       - name: Configure kubectl for EKS
-        run: aws eks --region your-aws-region update-kubeconfig --name your-eks-cluster-name
+        run: aws eks --region your-aws-region update-kubeconfig --name ${{ secrets.AWS_EKS_CLUSTER_NAME }}
 
       - name: Deploy Helm Chart
         run: |
