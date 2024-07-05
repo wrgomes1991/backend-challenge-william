@@ -38,42 +38,42 @@ def validate_token(token: str) -> TokenData:
         logger.info("Token decoded successfully. Payload: %s", payload)
     except jwt.DecodeError:
         logger.error("Failed to decode token.")
-        raise HTTPException(status_code=401, detail="Invalid token")
+        raise HTTPException(status_code=401, detail="Falso")
 
     if not all(key in payload for key in ("Name", "Role", "Seed")):
         logger.error("Token must contain exactly 3 claims: Name, Role, Seed")
-        raise HTTPException(status_code=400, detail="Token must contain exactly 3 claims: Name, Role, Seed")
+        raise HTTPException(status_code=400, detail="Falso Token must contain exactly 3 claims: Name, Role, Seed")
 
     name = payload.get("Name")
     role = payload.get("Role")
     try:
         seed = int(payload.get("Seed"))
     except (ValueError, TypeError):
-        logger.error("Seed claim is not a valid integer.")
-        raise HTTPException(status_code=400, detail="Invalid 'Seed' claim")
+        logger.error("Falso Seed claim is not a valid integer.")
+        raise HTTPException(status_code=400, detail="Falso Invalid 'Seed' claim")
 
     logger.info("Validating claims: Name=%s, Role=%s, Seed=%d", name, role, seed)
 
     if not isinstance(name, str) or not name.replace(" ", "").isalpha() or len(name) > 256:
         logger.error("Invalid 'Name' claim: %s", name)
-        raise HTTPException(status_code=400, detail="Invalid 'Name' claim")
+        raise HTTPException(status_code=400, detail="Falso Invalid 'Name' claim")
 
     if role not in {"Admin", "Member", "External"}:
         logger.error("Invalid 'Role' claim: %s", role)
-        raise HTTPException(status_code=400, detail="Invalid 'Role' claim")
+        raise HTTPException(status_code=400, detail="Falso Invalid 'Role' claim")
 
     if not is_prime(seed):
         logger.error("Invalid 'Seed' claim: %d is not a prime number.", seed)
-        raise HTTPException(status_code=400, detail="Invalid 'Seed' claim")
+        raise HTTPException(status_code=400, detail="Falso Invalid 'Seed' claim")
 
-    logger.info("Token is valid.")
+    logger.info("Verdadeiro.")
     return TokenData(name=name, role=role, seed=seed)
 
 @app.get("/verify-token")
 def verify_token(token: str = Query(...)):
     logger.info("Received token for verification.")
     token_data = validate_token(token)
-    return {"message": "Token is valid", "data": token_data}
+    return {"message": "Verdadeiro", "data": token_data}
 
 if __name__ == "__main__":
     import uvicorn
